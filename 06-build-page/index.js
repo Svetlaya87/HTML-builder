@@ -32,9 +32,8 @@ const indexHtmlPath = path.join(projectDistPath, "index.html");
     }
 
 
-
     const filesToCopyAssets = await fs.promises.readdir(assetsPathCurr, { withFileTypes: true });
-    
+
     for( let item of filesToCopyAssets){ 
        //copying all subdirectories and files
         if ( item.isFile() ){
@@ -45,15 +44,14 @@ const indexHtmlPath = path.join(projectDistPath, "index.html");
             let SubDirPath = path.join(assetsPathCurr, item.name);
             let subDir = await fs.promises.readdir(SubDirPath, { withFileTypes: true });
             await fs.promises.mkdir( newSubDirPath, {recursive: true} );
-            
+
             for (let item of subDir){
                 //console.log("SubDir item", item.name);
                 //console.log("SubDirPath ", SubDirPath);
                 await fs.promises.copyFile(path.join( SubDirPath, item.name), path.join( newSubDirPath, item.name));
-                
+
             }
 
-            
         }
     }
 
@@ -69,18 +67,18 @@ const indexHtmlPath = path.join(projectDistPath, "index.html");
     //console.log("componetsFiles ", componetsFiles, typeof componetsFiles );
     let newTemplateContent = readHtmlContent;
     for( let item of componetsFiles){
-        console.log(item.name.slice(0,-5));
-        console.log( readHtmlContent.includes( item.name.slice(0,-5)) );
+        //console.log(item.name.slice(0,-5));
+        //console.log( readHtmlContent.includes( item.name.slice(0,-5)) );
         if( readHtmlContent.includes( item.name.slice(0,-5))){
             let chunkToReplacePath = path.join(componentsPath, item.name);
             let chunkToReplace = await fs.promises.readFile(chunkToReplacePath, 'utf-8');
-            console.log("chunkToReplace ", chunkToReplace);
+            //console.log("chunkToReplace ", chunkToReplace);
             newTemplateContent = newTemplateContent.replace(`{{${item.name.slice(0,-5)}}}`, chunkToReplace);
+            //maybe change replace to replaceAll method, if it is neccessary
             await fs.promises.writeFile(indexHtmlPath, newTemplateContent);
-            
         }
-        
+
     }
-    
+
 
 })();
