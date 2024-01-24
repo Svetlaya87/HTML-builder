@@ -73,7 +73,7 @@ const indexHtmlPath = path.join(projectDistPath, "index.html");
             let chunkToReplacePath = path.join(componentsPath, item.name);
             let chunkToReplace = await fs.promises.readFile(chunkToReplacePath, 'utf-8');
             //console.log("chunkToReplace ", chunkToReplace);
-            newTemplateContent = newTemplateContent.replace(`{{${item.name.slice(0,-5)}}}`, chunkToReplace);
+            newTemplateContent = newTemplateContent.replaceAll(`{{${item.name.slice(0,-5)}}}`, chunkToReplace);
             //maybe change replace to replaceAll method, if it is neccessary
             await fs.promises.writeFile(indexHtmlPath, newTemplateContent);
         }
