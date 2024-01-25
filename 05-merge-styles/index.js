@@ -9,7 +9,7 @@ const bundlePath = path.join(__dirname, 'project-dist/bundle.css');
 
     const files = await fs.promises.readdir(filePath, { withFileTypes: true });
     for( let item of files){
-        if ( item.isFile() && item.name.slice(-3) === "css" ){
+        if ( item.isFile() && item.name.slice(-4) === ".css" ){
             allContent = allContent + await fs.promises.readFile(path.join(filePath, item.name), { encoding: 'utf8' });
         }
     }
